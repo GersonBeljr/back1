@@ -1,17 +1,11 @@
-//Comand Line Interface(cli)
 
 import pegaArquivo from "./index.js";
 import fs from 'fs';
 import chalk from 'chalk';
 import listaValidada from "./http-validacao.js";
 
-
-
-//1) criar uma váriavel para recepcionar o caminho via terminal
 const caminho = process.argv;
-//console.log(caminho);
 
-//pegaArquivo(caminho[2]);
 
 async function imprimeLista(valida, resultado, identificador = "") {
     if (valida) {
@@ -48,14 +42,13 @@ async function processaTexto(argumentos) {
 
     if (fs.lstatSync(caminho).isFile()) {
         const resultado = await pegaArquivo(caminho);
-        //console.log(chalk.yellow('Lista de Links'), resultado);
+ 
         imprimeLista(valida,resultado);
     } else if (fs.lstatSync(caminho).isDirectory()) {
         const arquivos = await fs.promises.readdir(caminho);
         arquivos.forEach(async (nomeDoArquivo) => {
             const lista = pegaArquivo(`${caminho}/${nomeDoArquivo}`);
-            // console.log(`${caminho}/${nomeDoArquivo}`);
-            // console.log(lista);
+        
             imprimeLista(valida,lista,nomeDoArquivo)
         })
     }
